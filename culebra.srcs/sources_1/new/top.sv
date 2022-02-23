@@ -78,7 +78,7 @@ module top
 
     // ALU.
     // Currently handles registers directly, without a bus and a normal pipeline.
-    alu #(WIDTH, INSTRUCTION_POINTER, STACK_POINTER) (
+    alu #(WIDTH, INSTRUCTION_POINTER, STACK_POINTER) alu (
         .reg_page(reg_page),
         .data_in(imm_reg),
         .enable(op_enable),
