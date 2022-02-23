@@ -43,14 +43,14 @@ module alu
     always @(posedge clk) begin
         if (enable) begin
             case (active_op)
-                4'h0: reg_page[active_reg] = reg_page[active_reg] - data_in;
-                4'h1: reg_page[active_reg] = reg_page[active_reg] + data_in;
-                4'h2: reg_page[active_reg] = reg_page[active_reg] & data_in;
-                4'h3: reg_page[active_reg] = reg_page[active_reg] | data_in;
-                4'h4: reg_page[active_reg] = reg_page[active_reg] ^ data_in;
-                4'h5: reg_page[active_reg] = data_in;
-                4'h6: reg_page[active_reg] = ~reg_page[active_reg];
-                default: reg_page[active_reg] = 'b0;
+                4'h0: reg_page[active_reg] = reg_page[active_reg] - data_in; // subtract
+                4'h1: reg_page[active_reg] = reg_page[active_reg] + data_in; // add
+                4'h2: reg_page[active_reg] = reg_page[active_reg] & data_in; // bitwise and
+                4'h3: reg_page[active_reg] = reg_page[active_reg] | data_in; // bitwise or
+                4'h4: reg_page[active_reg] = reg_page[active_reg] ^ data_in; // bitwise xor
+                4'h5: reg_page[active_reg] = data_in;                        // load value
+                4'h6: reg_page[active_reg] = ~reg_page[active_reg];          // bitwise not
+                default: reg_page[active_reg] = 'b0;                         // DEFAULT: load 0
             endcase
             // After operating, sum 1 to the instruction pointer, but only
             // when the ALU is enabled.
