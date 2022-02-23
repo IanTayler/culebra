@@ -61,7 +61,7 @@ module top
             .clk(clk)
         );
         // debug scope: show the currently selected operation and register in display.
-        debug_display #(.WIDTH(WIDTH)) debug_display (
+        debug_display #(.WIDTH(WIDTH)) display (
             .seg(seg),
             .dp(dp),
             .an(an),
