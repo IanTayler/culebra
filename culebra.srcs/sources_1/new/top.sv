@@ -47,7 +47,7 @@ module top
     wire [3:0] active_op;
 
     // The immediate register, which is used for holding literal values.
-    wire [WIDTH-1:0] imm_reg;
+    wire [WIDTH-1 : 0] imm_reg;
 
     `ifdef MANUAL_INPUT
         // debug scope: manually handle which instructions to run.
