@@ -47,29 +47,29 @@ module top
     wire [WIDTH-1:0] imm_reg;
 
     `ifdef MANUAL_INPUT
-    // debug scope: manually handle which instructions to run.
-    debug_op_driver #(.WIDTH(WIDTH)) op_driver (
-        .op_enable(op_enable),
-        .active_reg(active_reg),
-        .active_op(active_op),
-        .imm_reg(imm_reg),
-        .btnC(btnC), .btnL(btnL), .btnR(btnR), .btnD(btnD), .btnU(btnU),
-        .switch(switch),
-        .clk(clk)
-    );
-    // debug scope: show the currently selected operation and register in display.
-    debug_display #(.WIDTH(WIDTH)) debug_display (
-        .seg(seg),
-        .dp(dp),
-        .an(an),
-        .led(led),
-        .reg_page(reg_page),
-        .active_reg(active_reg),
-        .active_op(active_op),
-        .clk(clk)
-    );
+        // debug scope: manually handle which instructions to run.
+        debug_op_driver #(.WIDTH(WIDTH)) op_driver (
+            .op_enable(op_enable),
+            .active_reg(active_reg),
+            .active_op(active_op),
+            .imm_reg(imm_reg),
+            .btnC(btnC), .btnL(btnL), .btnR(btnR), .btnD(btnD), .btnU(btnU),
+            .switch(switch),
+            .clk(clk)
+        );
+        // debug scope: show the currently selected operation and register in display.
+        debug_display #(.WIDTH(WIDTH)) debug_display (
+            .seg(seg),
+            .dp(dp),
+            .an(an),
+            .led(led),
+            .reg_page(reg_page),
+            .active_reg(active_reg),
+            .active_op(active_op),
+            .clk(clk)
+        );
     `else // !`ifdef MANUAL_INPUT
-    // TODO: non-debug opdriver and display
+        // TODO: non-debug opdriver and display
     `endif
 
 
