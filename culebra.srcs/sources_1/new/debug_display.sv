@@ -50,6 +50,7 @@ module debug_display
     //   h4: ED for logical xor (exclusive disjunction)
     //   h5: LD for load immediate to register
     //   h6: nG for bitwise negation
+    //   h7: CP copy register (takes register number)
     //   -- for unknown other (probably not implemented)
     //
     assign segments[0] = (active_op == 'h0) ? 7'b0010010   // S
@@ -59,6 +60,7 @@ module debug_display
                          : (active_op == 'h4) ? 7'b0000110 // E
                          : (active_op == 'h5) ? 7'b1000111 // L
                          : (active_op == 'h6) ? 7'b0101011 // n
+                         : (active_op == 'h7) ? 7'b1000110 // C
                          : 7'b0111111;                     // -
 
     assign segments[1] = (active_op == 'h0) ? 7'b0000000   // B
@@ -68,6 +70,7 @@ module debug_display
                          : (active_op == 'h4) ? 7'b1000000 // D
                          : (active_op == 'h5) ? 7'b1000000 // D
                          : (active_op == 'h6) ? 7'b0000010 // G
+                         : (active_op == 'h7) ? 7'b0001100 // P
                          : 7'b0111111;                     // -
     // Space.
     assign segments[2] = 'b1111111;
