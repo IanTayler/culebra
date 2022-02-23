@@ -22,7 +22,10 @@
 `define MANUAL_INPUT
 
 module top
-    #(parameter WIDTH = 16)
+    #(parameter WIDTH = 16,
+      parameter A_REGISTER = 'h0,
+      parameter INSTRUCTION_POINTER = 'h5,
+      parameter STACK_POINTER = 'h6)
     (
         output wire [15:0] led,
         output wire [6:0]  seg,
@@ -73,8 +76,9 @@ module top
     `endif
 
 
-    // ALU dealing with register a.
-    alu #(.WIDTH(WIDTH)) alu (
+    // ALU.
+    // Currently handles registers directly, without a bus and a normal pipeline.
+    alu #(WIDTH, INSTRUCTION_POINTER, STACK_POINTER) (
         .reg_page(reg_page),
         .data_in(imm_reg),
         .enable(op_enable),
