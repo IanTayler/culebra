@@ -112,7 +112,7 @@ module top
         .enable(op_enable),
         .active_op(active_op),
         .active_reg(active_reg),
-        .clk(clk)
+        .clk(cpu_clk)
     );
 
 endmodule
