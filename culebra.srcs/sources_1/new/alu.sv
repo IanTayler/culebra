@@ -21,7 +21,9 @@
 
 
 module alu
-    #(parameter WIDTH = 8)
+    #(parameter WIDTH = 8,
+      parameter INSTRUCTION_POINTER = 'h5,
+      parameter STACK_POINTER = 'h6)
     (
 
         // Page with registers. TODO: bus this
@@ -50,6 +52,9 @@ module alu
                 4'h6: reg_page[active_reg] = ~reg_page[active_reg];
                 default: reg_page[active_reg] = 'b0;
             endcase
+            // After operating, sum 1 to the instruction pointer, but only
+            // when the ALU is enabled.
+            reg_page[INSTRUCTION_POINTER] = reg_page[INSTRUCTION_POINTER] + 'b1;
         end
     end
 endmodule
