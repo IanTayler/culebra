@@ -38,7 +38,7 @@ module program_rom
 		end
 
     always @*
-        case (address)
+        case (address_reg)
             'h00: memory = 'h10;
             'h01: memory = 'h11;
             'h02: memory = 'h12;
