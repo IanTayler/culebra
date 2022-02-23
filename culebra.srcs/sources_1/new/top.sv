@@ -72,7 +72,7 @@ module top
             .clk(clk)
         );
     `else // !`ifdef MANUAL_INPUT
-        // TODO: non-debug opdriver and display
+        display #(WIDTH, A_REGISTER) display (.led(led), .reg_page(reg_page));
     `endif
 
 
