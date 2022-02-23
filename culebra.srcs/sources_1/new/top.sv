@@ -22,6 +22,8 @@
 // Uncomment for debugging.
 // Manual INPUT let's you control each instrucion manually.
 `define MANUAL_INPUT
+// Slow clock runs instructions much slower so that you can debug.
+`define SLOW_CLOCK
 
 module top
     #(parameter WIDTH = 16,
@@ -56,6 +58,16 @@ module top
     wire [(WIDTH*2)-1 : 0] memory;
     // Address being read from memory. This will be the instruction pointer for us.
     wire [WIDTH-1 : 0]     address;
+    // CPU clock. Can be set to a slower speed for debug purposes.
+    wire                   cpu_clk;
+
+    // When we want to debug, get a very slow clock for the CPU.
+    `ifdef SLOW_CLOCK
+        slow_clock debug_clock (cpu_clk, clk);
+    `else // !`ifdef SLOW_CLOCK
+        // Hopefully this indirection won't appear in the final synthesized circuit.
+        assign cpu_clk = clk;
+    `endif
 
 
     program_rom #(.WIDTH(WIDTH)) program_rom (
