@@ -19,6 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
+`define MANUAL_INPUT
 
 module top
     #(parameter WIDTH = 16)
@@ -45,6 +46,7 @@ module top
     // The immediate register, which is used for holding literal values.
     wire [WIDTH-1:0] imm_reg;
 
+    `ifdef MANUAL_INPUT
     // debug scope: manually handle which instructions to run.
     debug_op_driver #(.WIDTH(WIDTH)) op_driver (
         .op_enable(op_enable),
@@ -55,7 +57,6 @@ module top
         .switch(switch),
         .clk(clk)
     );
-
     // debug scope: show the currently selected operation and register in display.
     debug_display #(.WIDTH(WIDTH)) debug_display (
         .seg(seg),
@@ -67,6 +68,10 @@ module top
         .active_op(active_op),
         .clk(clk)
     );
+    `else // !`ifdef MANUAL_INPUT
+    // TODO: non-debug opdriver and display
+    `endif
+
 
     // ALU dealing with register a.
     alu #(.WIDTH(WIDTH)) alu (
