@@ -49,6 +49,20 @@ module top
     // The immediate register, which is used for holding literal values.
     wire [WIDTH-1 : 0] imm_reg;
 
+    // Memory. Last read word. This is currently ROM-only and is only used for
+    // reading the executable.
+    wire [(WIDTH*2)-1 : 0] memory;
+    // Address being read from memory. This will be the instruction pointer for us.
+    wire [WIDTH-1 : 0]     address;
+
+
+    program_rom #(.WIDTH(WIDTH)) program_rom (
+        .memory(memory),
+        .address(address),
+        .clk(clk)
+    );
+
+
     `ifdef MANUAL_INPUT
         // debug scope: manually handle which instructions to run.
         debug_op_driver #(.WIDTH(WIDTH)) op_driver (
