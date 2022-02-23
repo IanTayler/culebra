@@ -19,6 +19,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
+// Uncomment for debugging.
+// Manual INPUT let's you control each instrucion manually.
 `define MANUAL_INPUT
 
 module top
