@@ -63,7 +63,7 @@ module top
 
     // When we want to debug, get a very slow clock for the CPU.
     `ifdef SLOW_CLOCK
-        slow_clock debug_clock (cpu_clk, clk);
+        slow_clock #(.WAIT_CYCLES('h3000000)) debug_clock (cpu_clk, clk);
     `else // !`ifdef SLOW_CLOCK
         // Hopefully this indirection won't appear in the final synthesized circuit.
         assign cpu_clk = clk;

@@ -22,7 +22,7 @@
 
 module slow_clock
     #(parameter WAIT_WIDTH=32,
-      parameter WAIT_CYCLES='h1000)
+      parameter WAIT_CYCLES='h3000000)
     (
         output reg slow_clk,
         input wire clk
