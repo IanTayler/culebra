@@ -92,6 +92,9 @@ module top
             .switch(switch),
             .clk(clk)
         );
+    `endif
+
+    `ifdef DEBUG_DISPLAY
         // debug scope: show the currently selected operation and register in display.
         debug_display #(.WIDTH(WIDTH)) display (
             .seg(seg),
@@ -103,7 +106,7 @@ module top
             .active_op(active_op),
             .clk(clk)
         );
-    `else // !`ifdef MANUAL_INPUT
+    `else // !`ifdef DEBUG_DISPLAY
         display #(WIDTH, A_REGISTER) display (.led(led), .reg_page(reg_page));
     `endif
 
