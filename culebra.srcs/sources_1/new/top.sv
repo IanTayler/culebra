@@ -92,6 +92,19 @@ module top
             .switch(switch),
             .clk(clk)
         );
+    `else // !`ifdef MANUAL_INPUT
+        op_driver #(.WIDTH(WIDTH)) op_driver (
+            .op_enable(op_enable),
+            .active_reg(active_reg),
+            .active_op(active_op),
+            .imm_reg(imm_reg),
+            .address(address),
+            .memory(memory),
+            .instruction_pointer(reg_page[INSTRUCTION_POINTER]),
+            .clk(cpu_clk)
+        );
+
+
     `endif
 
     `ifdef DEBUG_DISPLAY
