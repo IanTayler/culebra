@@ -37,17 +37,21 @@ module program_rom
     end
 	always @* begin
         case (address_reg)
-            // Should get 4 LEDs with different brightness.
-            //              LOAD    A         [PAD]            0
-            'h00: memory = {5'h05, 3'h0, (WIDTH-8)'('b0), WIDTH'('h0)};
-            //               XOR    A         [PAD]            15
-            'h01: memory = {5'h04, 3'h0, (WIDTH-8)'('b0), WIDTH'('hf)};
-            //               AND    A         [PAD]            10
-            'h02: memory = {5'h02, 3'h0, (WIDTH-8)'('b0), WIDTH'('ha)};
-            //               AND    A         [PAD]            8
-            'h03: memory = {5'h02, 3'h0, (WIDTH-8)'('b0), WIDTH'('h8)};
-            //              LOAD    P         [PAD]            0
-            'h04: memory = {5'h05, 3'h5, (WIDTH-8)'('b0), WIDTH'('h0)}; // loop forever
+            // Should multiply 5*4.
+            //              LOAD     B         [PAD]            5
+            'h00: memory = {5'h05, 3'h1, (WIDTH-8)'('b0), WIDTH'('h5)};
+            //              LOAD     Y         [PAD]            4
+            'h01: memory = {5'h05, 3'h4, (WIDTH-8)'('b0), WIDTH'('h4)};
+            //              SUM%     A         [PAD]           %B
+            'h02: memory = {5'h11, 3'h0, (WIDTH-8)'('b0), WIDTH'('h1)};
+            //               SUB     Y         [PAD]            1
+            'h03: memory = {5'h00, 3'h4, (WIDTH-8)'('b0), WIDTH'('h1)};
+            // Loop until Y is 0.
+            //               JMP          [PAD]       NZ            1
+            'h04: memory = {5'h07, (WIDTH-5)'('b0), 3'b001, (WIDTH-3)'('h1)};
+            // Loop forever.
+            //               JMP          [PAD]     ALWAYS           4
+            'h05: memory = {5'h07, (WIDTH-5)'('b0), 3'b111, (WIDTH-3)'('h4)};
             default: memory = 'h00;
         endcase
     end
