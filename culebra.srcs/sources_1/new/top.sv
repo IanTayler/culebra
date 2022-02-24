@@ -19,10 +19,14 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-// Uncomment for debugging.
-// Manual INPUT let's you control each instrucion manually.
-`define MANUAL_INPUT
-// Slow clock runs instructions much slower so that you can debug.
+// // Uncomment for debugging.
+// // MANUAL_INPUT lets you control each instrucion manually.
+// // Use together with DEBUG_DISPLAY for maximum effect.
+// `define MANUAL_INPUT
+// // DEBUG_DISPLAY shows which instruction and register are selected.
+`define DEBUG_DISPLAY
+// // SLOW_CLOCK runs instructions much slower so that you can debug.
+// // This only makes sense when MANUAL_INPUT is NOT set.
 `define SLOW_CLOCK
 
 module top
