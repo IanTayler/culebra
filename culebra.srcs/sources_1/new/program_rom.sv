@@ -23,21 +23,19 @@
 module program_rom
     #(parameter WIDTH = 8)
 	(
-		output reg [(WIDTH*2)- 1 : 0] memory,
+		output reg [(WIDTH*2)-1 : 0] memory,
 		input wire [WIDTH-1 : 0] address,
 		input wire clk
 	);
 
 	(* rom_style = "block" *)
 
-	reg [WIDTH-1 : 0] address_reg;
+    reg [WIDTH-1 : 0] address_reg;
 
-	always @(posedge clk)
-		begin
-            address_reg <= address;
-		end
-
-    always @*
+    always @(posedge clk) begin
+        address_reg <= address;
+    end
+	always @* begin
         case (address_reg)
             'h00: memory = 'h10;
             'h01: memory = 'h11;
@@ -58,4 +56,6 @@ module program_rom
             'h10: memory = 'h20;
             default: memory = 'h00;
         endcase
+    end
+
 endmodule
