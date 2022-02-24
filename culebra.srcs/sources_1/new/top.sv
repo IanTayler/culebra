@@ -77,7 +77,7 @@ module top
     program_rom #(.WIDTH(WIDTH)) program_rom (
         .memory(memory),
         .address(address),
-        .clk(clk)
+        .clk(cpu_clk)
     );
 
 
