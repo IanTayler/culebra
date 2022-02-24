@@ -75,6 +75,7 @@ module alu
                                 = !flags[1];             // if signed non-negative
                             3'b100: condition
                                 = !flags[0] & !flags[1]; // if signed positive
+                            3'b111: condition = 'b1;     // unconditionally
                             default: condition = 1'b0;   // default: don't jump
                         endcase
                         // Ignore the first three bits of the immediate input.
