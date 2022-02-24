@@ -37,23 +37,16 @@ module program_rom
     end
 	always @* begin
         case (address_reg)
-            'h00: memory = 'h10;
-            'h01: memory = 'h11;
-            'h02: memory = 'h12;
-            'h03: memory = 'h13;
-            'h04: memory = 'h14;
-            'h05: memory = 'h15;
-            'h06: memory = 'h16;
-            'h07: memory = 'h17;
-            'h08: memory = 'h18;
-            'h09: memory = 'h19;
-            'h0a: memory = 'h1a;
-            'h0b: memory = 'h1b;
-            'h0c: memory = 'h1c;
-            'h0d: memory = 'h1d;
-            'h0e: memory = 'h1e;
-            'h0f: memory = 'h1f;
-            'h10: memory = 'h20;
+            //               SUM    A         [PAD]            0
+            'h00: memory = {4'h1, 3'h0, (WIDTH-7)'('b0), WIDTH'('h0)};
+            //               XOR    A         [PAD]            7
+            'h01: memory = {4'h4, 3'h0, (WIDTH-7)'('b0), WIDTH'('b111)};
+            //               OR     A         [PAD]           238
+            'h02: memory = {4'h3, 3'h0, (WIDTH-7)'('b0), WIDTH'('hee)};
+            //               ADD    A         [PAD]            9
+            'h03: memory = {4'h1, 3'h0, (WIDTH-7)'('b0), WIDTH'('h3)};
+            //               SUB    P         [PAD]            1
+            'h04: memory = {4'h0, 3'h5, (WIDTH-7)'('b0), WIDTH'('h4)}; // loop forever
             default: memory = 'h00;
         endcase
     end
