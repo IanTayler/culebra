@@ -95,7 +95,7 @@ module debug_display
                          : (active_reg == 'h1) ? 7'b0000000 // B
                          : (active_reg == 'h2) ? 7'b1000110 // C
                          : (active_reg == 'h3) ? 7'b1000000 // D
-                         : (active_reg == 'h4) ? 7'b0011001 // Y
+                         : (active_reg == 'h4) ? 7'b0010001 // Y
                          : (active_reg == 'h5) ? 7'b0001100 // P
                          : (active_reg == 'h6) ? 7'b0010010 // S
                          : 7'b0111111;                      // -
