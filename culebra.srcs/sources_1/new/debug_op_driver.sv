@@ -25,7 +25,7 @@ module debug_op_driver
     (
         output reg              op_enable,
         output reg [2:0]        active_reg,
-        output reg [3:0]        active_op,
+        output reg [4:0]        active_op,
         output wire [WIDTH-1:0] imm_reg,
         input wire              btnC, btnL, btnR, btnD, btnU,
         input wire [15:0]       switch,

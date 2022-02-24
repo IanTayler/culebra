@@ -31,7 +31,7 @@ module alu
         // The immediate register (input value).
         input wire [WIDTH-1 : 0] data_in,
         // operation to run.
-        input wire [3:0]         active_op,
+        input wire [4:0]         active_op,
         // destination register.
         input wire [2:0]         active_reg,
         // whether we should enable this alu this clock cycle.

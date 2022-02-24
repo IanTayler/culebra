@@ -52,7 +52,7 @@ module top
     // Which register should be used for operations (0=b, 1=a).
     wire [2:0] active_reg;
     // Which operation we want to use now (0=add, 1=subtract).
-    wire [3:0] active_op;
+    wire [4:0] active_op;
 
     // The immediate register, which is used for holding literal values.
     wire [WIDTH-1 : 0] imm_reg;

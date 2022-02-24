@@ -29,7 +29,7 @@ module debug_display
         output wire [15:0]       led,
         input wire [WIDTH-1 : 0] reg_page[0:7],
         input wire [2:0]         active_reg,
-        input wire [3:0]         active_op,
+        input wire [4:0]         active_op,
         input wire               clk
     );
 

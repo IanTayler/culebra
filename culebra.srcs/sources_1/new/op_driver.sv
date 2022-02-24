@@ -25,7 +25,7 @@ module op_driver
     (
         output reg                 op_enable,
         output reg [2:0]           active_reg,
-        output reg [3:0]           active_op,
+        output reg [4:0]           active_op,
         output reg [WIDTH-1 : 0]   imm_reg,
         output reg [WIDTH-1 : 0]   address,
         input wire [WIDTH*2-1 : 0] memory,
@@ -59,8 +59,8 @@ module op_driver
                     instruction = memory;
                     // Parse instruction.
                     imm_reg = instruction[WIDTH-1 : 0];
-                    active_op = instruction[WIDTH*2-1 : WIDTH*2-4];
-                    active_reg = instruction[WIDTH*2-5 : WIDTH*2-7];
+                    active_op = instruction[WIDTH*2-1 : WIDTH*2-5];
+                    active_reg = instruction[WIDTH*2-6 : WIDTH*2-8];
                     // Set enable.
                     op_enable = 'b1;
                     // Reset pipeline state.
