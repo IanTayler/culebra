@@ -21,8 +21,7 @@
 
 
 module op_driver
-    #(parameter WIDTH = 8,
-      parameter INSTRUCTION_POINTER = 'h5)
+    #(parameter WIDTH = 8)
     (
         output reg                 op_enable,
         output reg [2:0]           active_reg,
@@ -30,14 +29,13 @@ module op_driver
         output reg [WIDTH-1 : 0]   imm_reg,
         output reg [WIDTH-1 : 0]   address,
         input wire [WIDTH*2-1 : 0] memory,
-        input wire [WIDTH-1 : 0]   reg_page [0:7],
+        input wire [WIDTH-1 : 0]   instruction_pointer,
         input wire                 clk
     );
 
     initial
         address = 'h00;
     always @(posedge clk) begin
-        address = reg_page[INSTRUCTION_POINTER];
         // Enable every cycle for now.
         // NOTE: We may want to break some instructions into multiple cycles
         // in the future, but not yet. Keep it simple for now.
@@ -45,5 +43,6 @@ module op_driver
         imm_reg = memory[WIDTH-1 : 0];
         active_op = memory[WIDTH*2-1 : WIDTH*2-4];
         active_reg = memory[WIDTH*2-5 : WIDTH*2-7];
+        address = instruction_pointer;
     end
 endmodule
