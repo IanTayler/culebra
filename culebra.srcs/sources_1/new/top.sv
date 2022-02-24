@@ -123,7 +123,6 @@ module top
         display #(WIDTH, A_REGISTER) display (.led(led), .reg_page(reg_page));
     `endif
 
-
     // ALU.
     // Currently handles registers directly, without a bus and a normal pipeline.
     alu #(WIDTH, INSTRUCTION_POINTER, STACK_POINTER) alu (
