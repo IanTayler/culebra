@@ -42,38 +42,38 @@ module debug_display
     // No dot on the 7-segment display.
     assign dp = 'b1;
 
-    // Set active operation display to
-    //   h0: SB for subtraction
-    //   h1: AD for addition
-    //   h2: CJ for logical and (conjunction)
-    //   h3: DJ for logical or (disjunction)
-    //   h4: ED for logical xor (exclusive disjunction)
-    //   h5: LD for load immediate to register
-    //   h6: nG for bitwise negation
-    //   h7: CP copy register (takes register number)
+    // Set active operation display to the following, with 'x' meaning we don't
+    // care.
+    //   hx0: SB for subtraction
+    //   hx1: AD for addition
+    //   hx2: CJ for logical and (conjunction)
+    //   hx3: DJ for logical or (disjunction)
+    //   hx4: ED for logical xor (exclusive disjunction)
+    //   hx5: LD for load immediate to register
+    //   hx6: nG for bitwise negation
     //   -- for unknown other (probably not implemented)
     //
-    assign segments[0] = (active_op == 'h0) ? 7'b0010010   // S
-                         : (active_op == 'h1) ? 7'b0001000 // A
-                         : (active_op == 'h2) ? 7'b1000110 // C
-                         : (active_op == 'h3) ? 7'b1000000 // D
-                         : (active_op == 'h4) ? 7'b0000110 // E
-                         : (active_op == 'h5) ? 7'b1000111 // L
-                         : (active_op == 'h6) ? 7'b0101011 // n
-                         : (active_op == 'h7) ? 7'b1000110 // C
-                         : 7'b0111111;                     // -
+    assign segments[0] = (active_op[3:0] == 'h0) ? 7'b0010010   // S
+                         : (active_op[3:0] == 'h1) ? 7'b0001000 // A
+                         : (active_op[3:0] == 'h2) ? 7'b1000110 // C
+                         : (active_op[3:0] == 'h3) ? 7'b1000000 // D
+                         : (active_op[3:0] == 'h4) ? 7'b0000110 // E
+                         : (active_op[3:0] == 'h5) ? 7'b1000111 // L
+                         : (active_op[3:0] == 'h6) ? 7'b0101011 // n
+                         : 7'b0111111;                           // -
 
-    assign segments[1] = (active_op == 'h0) ? 7'b0000000   // B
-                         : (active_op == 'h1) ? 7'b1000000 // D
-                         : (active_op == 'h2) ? 7'b1110001 // J
-                         : (active_op == 'h3) ? 7'b1110001 // J
-                         : (active_op == 'h4) ? 7'b1000000 // D
-                         : (active_op == 'h5) ? 7'b1000000 // D
-                         : (active_op == 'h6) ? 7'b0000010 // G
-                         : (active_op == 'h7) ? 7'b0001100 // P
-                         : 7'b0111111;                     // -
-    // Space.
-    assign segments[2] = 'b1111111;
+    assign segments[1] = (active_op[3:0] == 'h0) ? 7'b0000000   // B
+                         : (active_op[3:0] == 'h1) ? 7'b1000000 // D
+                         : (active_op[3:0] == 'h2) ? 7'b1110001 // J
+                         : (active_op[3:0] == 'h3) ? 7'b1110001 // J
+                         : (active_op[3:0] == 'h4) ? 7'b1000000 // D
+                         : (active_op[3:0] == 'h5) ? 7'b1000000 // D
+                         : (active_op[3:0] == 'h6) ? 7'b0000010 // G
+                         : 7'b0111111;                          // -
+    // We show "|-" if we're loading a value from a register.
+    // "-" if the immediate value is the input to the operation.
+    assign segments[2] = active_op[4] ? 7'b0001111 // |-
+                         : 7'b0111111;             // -
     // Set to the register used. Some registers have no name.
     // Registers with name are:
     //   h0: A: general purpose

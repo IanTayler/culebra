@@ -40,17 +40,23 @@ module alu
         input wire               clk
     );
 
+    // This is used when we need to load a value from a register before passing it
+    // as input.
+    reg [WIDTH-1 : 0] op_input;
     always @(posedge clk) begin
         if (enable) begin
-            case (active_op)
-                4'h0: reg_page[active_reg] = reg_page[active_reg] - data_in; // subtract
-                4'h1: reg_page[active_reg] = reg_page[active_reg] + data_in; // add
-                4'h2: reg_page[active_reg] = reg_page[active_reg] & data_in; // bitwise and
-                4'h3: reg_page[active_reg] = reg_page[active_reg] | data_in; // bitwise or
-                4'h4: reg_page[active_reg] = reg_page[active_reg] ^ data_in; // bitwise xor
-                4'h5: reg_page[active_reg] = data_in;                        // load value
-                4'h6: reg_page[active_reg] = ~reg_page[active_reg];          // bitwise not
-                4'h7: reg_page[active_reg] = reg_page[data_in[2:0]];         // copy register
+            // If the fifth bit of the operation is set, that means this is
+            // an indirect operation, so we load the input from the register
+            // being pointed to before continuing.
+            op_input = active_op[4] ? reg_page[data_in[2:0]] : data_in;
+            case (active_op[3:0])
+                4'h0: reg_page[active_reg] = reg_page[active_reg] - op_input; // subtract
+                4'h1: reg_page[active_reg] = reg_page[active_reg] + op_input; // add
+                4'h2: reg_page[active_reg] = reg_page[active_reg] & op_input; // bitwise and
+                4'h3: reg_page[active_reg] = reg_page[active_reg] | op_input; // bitwise or
+                4'h4: reg_page[active_reg] = reg_page[active_reg] ^ op_input; // bitwise xor
+                4'h5: reg_page[active_reg] = op_input;                        // load value
+                4'h6: reg_page[active_reg] = ~reg_page[active_reg];           // bitwise not
                 default: reg_page[active_reg] = 'b0;                         // DEFAULT: load 0
             endcase
             // After operating, sum 1 to the instruction pointer, but only
