@@ -55,6 +55,7 @@ module debug_display
     //   hx4: ED for logical xor (exclusive disjunction)
     //   hx5: LD for load immediate to register
     //   hx6: nG for bitwise negation
+    //   hx7: JP conditional jumps high bits define condition
     //   -- for unknown other (probably not implemented)
     //
     assign segments[0] = (active_op[3:0] == 'h0) ? 7'b0010010   // S
@@ -64,7 +65,8 @@ module debug_display
                          : (active_op[3:0] == 'h4) ? 7'b0000110 // E
                          : (active_op[3:0] == 'h5) ? 7'b1000111 // L
                          : (active_op[3:0] == 'h6) ? 7'b0101011 // n
-                         : 7'b0111111;                           // -
+                         : (active_op[3:0] == 'h7) ? 7'b1110001 // J
+                         : 7'b0111111;                          // -
 
     assign segments[1] = (active_op[3:0] == 'h0) ? 7'b0000000   // B
                          : (active_op[3:0] == 'h1) ? 7'b1000000 // D
@@ -73,7 +75,9 @@ module debug_display
                          : (active_op[3:0] == 'h4) ? 7'b1000000 // D
                          : (active_op[3:0] == 'h5) ? 7'b1000000 // D
                          : (active_op[3:0] == 'h6) ? 7'b0000010 // G
+                         : (active_op[3:0] == 'h7) ? 7'b0001100 // P
                          : 7'b0111111;                          // -
+
     // We show "|-" if we're loading a value from a register.
     // "-" if the immediate value is the input to the operation.
     assign segments[2] = active_op[4] ? 7'b0001111 // |-

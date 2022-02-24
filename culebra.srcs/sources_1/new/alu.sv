@@ -45,6 +45,9 @@ module alu
     // This is used when we need to load a value from a register before passing it
     // as input.
     reg [WIDTH-1 : 0] op_input;
+    // Used in conditional jumps to determine whether to jump.
+    reg               condition;
+
     always @(posedge clk) begin
         if (enable) begin
             // If the fifth bit of the operation is set, that means this is
@@ -59,7 +62,33 @@ module alu
                 4'h4: reg_page[active_reg] = reg_page[active_reg] ^ op_input; // bitwise xor
                 4'h5: reg_page[active_reg] = op_input;                        // load value
                 4'h6: reg_page[active_reg] = ~reg_page[active_reg];           // bitwise not
-                default: reg_page[active_reg] = 'b0;                         // DEFAULT: load 0
+                4'h7:                                                         // jump
+                    begin
+                        case (data_in[WIDTH-1 : WIDTH-3])
+                            3'b000: condition
+                                = flags[0];              // if zero
+                            3'b001: condition
+                                = !flags[0];             // if non-zero
+                            3'b010: condition
+                                = flags[1];              // if signed negative
+                            3'b011: condition
+                                = !flags[1];             // if signed non-negative
+                            3'b100: condition
+                                = !flags[0] & !flags[1]; // if signed positive
+                            default: condition = 1'b0;   // default: don't jump
+                        endcase
+                        // Ignore the first three bits of the immediate input.
+                        // This is because these three bits define which condition
+                        // to use.
+                        //
+                        // But do no ignore the top three bits of registers.
+                        // That means that if you need to jump to a very high address,
+                        // you can only do it if the address is in a register.
+                        if (condition)
+                            reg_page[INSTRUCTION_POINTER] = active_op[4] ? op_input
+                                                            : op_input[WIDTH-4 : 0];
+                    end
+                default: reg_page[active_reg] = 'b0;                          // DEFAULT: load 0
             endcase
             // The flag in 0 marks whether the result in the register is 0.
             flags[0] = reg_page[active_reg] == 'b0;
