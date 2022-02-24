@@ -37,8 +37,11 @@ module debug_display
     wire [6:0] segments [0:3];
     reg [1:0] counter;
 
-    // Show active register value in leds.
-    assign led[WIDTH-1 : 0] = reg_page[active_reg];
+    // Show active register value in leds. Ignore highest two bits to
+    // show the flags instead.
+    assign led[WIDTH-3 : 0] = reg_page[active_reg];
+    // Flags shown in the highest two LEDs.
+    assign led[WIDTH-1 : WIDTH-2] = flags;
 
     // No dot on the 7-segment display.
     assign dp = 'b1;
