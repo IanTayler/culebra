@@ -37,16 +37,17 @@ module program_rom
     end
 	always @* begin
         case (address_reg)
-            //               SUM    A         [PAD]            0
-            'h00: memory = {4'h1, 3'h0, (WIDTH-7)'('b0), WIDTH'('h0)};
-            //               XOR    A         [PAD]            7
-            'h01: memory = {4'h4, 3'h0, (WIDTH-7)'('b0), WIDTH'('b111)};
-            //               OR     A         [PAD]           238
-            'h02: memory = {4'h3, 3'h0, (WIDTH-7)'('b0), WIDTH'('hee)};
-            //               ADD    A         [PAD]            9
-            'h03: memory = {4'h1, 3'h0, (WIDTH-7)'('b0), WIDTH'('h3)};
-            //               SUB    P         [PAD]            4
-            'h04: memory = {4'h0, 3'h5, (WIDTH-7)'('b0), WIDTH'('h4)}; // loop forever
+            // Should get 4 LEDs with different brightness.
+            //              LOAD    A         [PAD]            0
+            'h00: memory = {4'h5, 3'h0, (WIDTH-7)'('b0), WIDTH'('h0)};
+            //               XOR    A         [PAD]            15
+            'h01: memory = {4'h4, 3'h0, (WIDTH-7)'('b0), WIDTH'('hf)};
+            //               AND    A         [PAD]            10
+            'h02: memory = {4'h2, 3'h0, (WIDTH-7)'('b0), WIDTH'('ha)};
+            //               AND    A         [PAD]            8
+            'h03: memory = {4'h2, 3'h0, (WIDTH-7)'('b0), WIDTH'('h8)};
+            //              LOAD    P         [PAD]            1
+            'h04: memory = {4'h5, 3'h5, (WIDTH-7)'('b0), WIDTH'('h0)}; // loop forever
             default: memory = 'h00;
         endcase
     end
