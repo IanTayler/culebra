@@ -45,7 +45,7 @@ module program_rom
             'h02: memory = {4'h3, 3'h0, (WIDTH-7)'('b0), WIDTH'('hee)};
             //               ADD    A         [PAD]            9
             'h03: memory = {4'h1, 3'h0, (WIDTH-7)'('b0), WIDTH'('h3)};
-            //               SUB    P         [PAD]            1
+            //               SUB    P         [PAD]            4
             'h04: memory = {4'h0, 3'h5, (WIDTH-7)'('b0), WIDTH'('h4)}; // loop forever
             default: memory = 'h00;
         endcase
