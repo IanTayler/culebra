@@ -28,6 +28,8 @@ module alu
 
         // Page with registers. TODO: bus this
         output reg [WIDTH-1 : 0] reg_page[0:7],
+        // CPU flags for conditional jumps.
+        output reg [1:0]         flags,
         // The immediate register (input value).
         input wire [WIDTH-1 : 0] data_in,
         // operation to run.

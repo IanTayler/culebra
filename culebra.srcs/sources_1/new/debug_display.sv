@@ -30,6 +30,7 @@ module debug_display
         input wire [WIDTH-1 : 0] reg_page[0:7],
         input wire [2:0]         active_reg,
         input wire [4:0]         active_op,
+        input wire [1:0]         flags,
         input wire               clk
     );
 

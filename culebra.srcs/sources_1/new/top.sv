@@ -46,6 +46,9 @@ module top
 
     // Our two main registers A, and B.
     wire [WIDTH-1 : 0] reg_page[0:7];
+    // CPU flags used for conditional jumps (jumps not implemented yet).
+    wire [1:0]         flags;
+
 
     // These handle whether it's time to add in _this_ clock cycle.
     wire op_enable;
@@ -117,6 +120,7 @@ module top
             .reg_page(reg_page),
             .active_reg(active_reg),
             .active_op(active_op),
+            .flags(flags),
             .clk(clk)
         );
     `else // !`ifdef DEBUG_DISPLAY
@@ -127,6 +131,7 @@ module top
     // Currently handles registers directly, without a bus and a normal pipeline.
     alu #(WIDTH, INSTRUCTION_POINTER, STACK_POINTER) alu (
         .reg_page(reg_page),
+        .flags(flags),
         .data_in(imm_reg),
         .enable(op_enable),
         .active_op(active_op),
