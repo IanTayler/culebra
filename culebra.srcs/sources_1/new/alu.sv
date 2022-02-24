@@ -61,6 +61,11 @@ module alu
                 4'h6: reg_page[active_reg] = ~reg_page[active_reg];           // bitwise not
                 default: reg_page[active_reg] = 'b0;                         // DEFAULT: load 0
             endcase
+            // The flag in 0 marks whether the result in the register is 0.
+            flags[0] = reg_page[active_reg] == 'b0;
+            // The flag in 1 marks whether the result has the highest bit set.
+            // This is useful for signed integer operations and greater-than comparisons.
+            flags[1] = reg_page[active_reg][WIDTH-1];
             // After operating, sum 1 to the instruction pointer, but only
             // when the ALU is enabled.
             reg_page[INSTRUCTION_POINTER] = reg_page[INSTRUCTION_POINTER] + 'b1;
