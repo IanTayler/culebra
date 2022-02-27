@@ -24,10 +24,10 @@
 // // Use together with DEBUG_DISPLAY for maximum effect.
 // `define MANUAL_INPUT
 // // DEBUG_DISPLAY shows which instruction and register are selected.
-`define DEBUG_DISPLAY
+// `define DEBUG_DISPLAY
 // // SLOW_CLOCK runs instructions much slower so that you can debug.
 // // This only makes sense when MANUAL_INPUT is NOT set.
-`define SLOW_CLOCK
+// `define SLOW_CLOCK
 
 module top
     #(parameter WIDTH = 16,
