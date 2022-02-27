@@ -35,7 +35,7 @@ module alu
         // operation to run.
         input wire [4:0]         active_op,
         // destination register.
-        input wire [2:0]         active_reg,
+        input wire [2:0]         op_modifier,
         // whether we should enable this alu this clock cycle.
         input wire               enable,
         // the clock
@@ -55,14 +55,14 @@ module alu
             // being pointed to before continuing.
             op_input = active_op[4] ? reg_page[data_in[2:0]] : data_in;
             case (active_op[3:0])
-                4'h0: reg_page[active_reg] = reg_page[active_reg] - op_input; // subtract
-                4'h1: reg_page[active_reg] = reg_page[active_reg] + op_input; // add
-                4'h2: reg_page[active_reg] = reg_page[active_reg] & op_input; // bitwise and
-                4'h3: reg_page[active_reg] = reg_page[active_reg] | op_input; // bitwise or
-                4'h4: reg_page[active_reg] = reg_page[active_reg] ^ op_input; // bitwise xor
-                4'h5: reg_page[active_reg] = op_input;                        // load value
-                4'h6: reg_page[active_reg] = ~reg_page[active_reg];           // bitwise not
-                4'h7:                                                         // jump
+                4'h0: reg_page[op_modifier] = reg_page[op_modifier] - op_input; // subtract
+                4'h1: reg_page[op_modifier] = reg_page[op_modifier] + op_input; // add
+                4'h2: reg_page[op_modifier] = reg_page[op_modifier] & op_input; // bitwise and
+                4'h3: reg_page[op_modifier] = reg_page[op_modifier] | op_input; // bitwise or
+                4'h4: reg_page[op_modifier] = reg_page[op_modifier] ^ op_input; // bitwise xor
+                4'h5: reg_page[op_modifier] = op_input;                         // load value
+                4'h6: reg_page[op_modifier] = ~reg_page[op_modifier];           // bitwise not
+                4'h7:                                                           // jump
                     begin
                         case (data_in[WIDTH-1 : WIDTH-3])
                             3'b000: condition
@@ -89,13 +89,13 @@ module alu
                             reg_page[INSTRUCTION_POINTER] = active_op[4] ? op_input
                                                             : op_input[WIDTH-4 : 0];
                     end
-                default: reg_page[active_reg] = 'b0;                          // DEFAULT: load 0
+                default: reg_page[op_modifier] = 'b0;                           // DEFAULT: load 0
             endcase
             // The flag in 0 marks whether the result in the register is 0.
-            flags[0] = reg_page[active_reg] == 'b0;
+            flags[0] = reg_page[op_modifier] == 'b0;
             // The flag in 1 marks whether the result has the highest bit set.
             // This is useful for signed integer operations and greater-than comparisons.
-            flags[1] = reg_page[active_reg][WIDTH-1];
+            flags[1] = reg_page[op_modifier][WIDTH-1];
             // After operating, sum 1 to the instruction pointer, but only
             // when the ALU is enabled.
             reg_page[INSTRUCTION_POINTER] = reg_page[INSTRUCTION_POINTER] + 'b1;

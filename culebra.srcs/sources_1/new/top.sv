@@ -52,9 +52,9 @@ module top
 
     // These handle whether it's time to add in _this_ clock cycle.
     wire op_enable;
-    // Which register should be used for operations (0=b, 1=a).
-    wire [2:0] active_reg;
-    // Which operation we want to use now (0=add, 1=subtract).
+    // Modifier for instructions (usually affected register)
+    wire [2:0] op_modifier;
+    // Which operation we want to use now (0=add, 1=subtract, etc.).
     wire [4:0] active_op;
 
     // The immediate register, which is used for holding literal values.
@@ -88,7 +88,7 @@ module top
         // debug scope: manually handle which instructions to run.
         debug_op_driver #(.WIDTH(WIDTH)) op_driver (
             .op_enable(op_enable),
-            .active_reg(active_reg),
+            .op_modifier(op_modifier),
             .active_op(active_op),
             .imm_reg(imm_reg),
             .btnC(btnC), .btnL(btnL), .btnR(btnR), .btnD(btnD), .btnU(btnU),
@@ -98,7 +98,7 @@ module top
     `else // !`ifdef MANUAL_INPUT
         op_driver #(.WIDTH(WIDTH)) op_driver (
             .op_enable(op_enable),
-            .active_reg(active_reg),
+            .op_modifier(op_modifier),
             .active_op(active_op),
             .imm_reg(imm_reg),
             .address(address),
@@ -118,7 +118,7 @@ module top
             .an(an),
             .led(led),
             .reg_page(reg_page),
-            .active_reg(active_reg),
+            .op_modifier(op_modifier),
             .active_op(active_op),
             .flags(flags),
             .clk(clk)
@@ -135,7 +135,7 @@ module top
         .data_in(imm_reg),
         .enable(op_enable),
         .active_op(active_op),
-        .active_reg(active_reg),
+        .op_modifier(op_modifier),
         .clk(cpu_clk)
     );
 

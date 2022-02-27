@@ -24,7 +24,7 @@ module debug_op_driver
     #(parameter WIDTH = 8)
     (
         output reg              op_enable,
-        output reg [2:0]        active_reg,
+        output reg [2:0]        op_modifier,
         output reg [4:0]        active_op,
         output wire [WIDTH-1:0] imm_reg,
         input wire              btnC, btnL, btnR, btnD, btnU,
@@ -53,9 +53,9 @@ module debug_op_driver
             if (btnL | btnR | btnC | btnD | btnU)
                 debounce_counter = {25{1'b1}};
             if (btnL)
-                active_reg = active_reg - 'b1;
+                op_modifier = op_modifier - 'b1;
             else if (btnR)
-                active_reg = active_reg + 'b1;
+                op_modifier = op_modifier + 'b1;
             if (btnD)
                 active_op = active_op - 'b1;
             else if (btnU)

@@ -24,7 +24,7 @@ module op_driver
     #(parameter WIDTH = 8)
     (
         output reg                 op_enable,
-        output reg [2:0]           active_reg,
+        output reg [2:0]           op_modifier,
         output reg [4:0]           active_op,
         output reg [WIDTH-1 : 0]   imm_reg,
         output reg [WIDTH-1 : 0]   address,
@@ -60,7 +60,7 @@ module op_driver
                     // Parse instruction.
                     imm_reg = instruction[WIDTH-1 : 0];
                     active_op = instruction[WIDTH*2-1 : WIDTH*2-5];
-                    active_reg = instruction[WIDTH*2-6 : WIDTH*2-8];
+                    op_modifier = instruction[WIDTH*2-6 : WIDTH*2-8];
                     // Set enable.
                     op_enable = 'b1;
                     // Reset pipeline state.

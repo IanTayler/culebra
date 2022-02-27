@@ -28,18 +28,22 @@ module debug_display
         output reg [3:0]         an,
         output wire [15:0]       led,
         input wire [WIDTH-1 : 0] reg_page[0:7],
-        input wire [2:0]         active_reg,
+        input wire [2:0]         op_modifier,
         input wire [4:0]         active_op,
         input wire [1:0]         flags,
         input wire               clk
     );
 
     wire [6:0] segments [0:3];
-    reg [1:0] counter;
+    reg [1:0]  counter;
+    // Does this op take a register or something else?
+    // Currently only jumps take a different modifier.
+    wire       op_modifier_non_register = active_op == 'h7;
+
 
     // Show active register value in leds. Ignore highest two bits to
     // show the flags instead.
-    assign led[WIDTH-3 : 0] = reg_page[active_reg];
+    assign led[WIDTH-3 : 0] = reg_page[op_modifier];
     // Flags shown in the highest two LEDs.
     assign led[WIDTH-1 : WIDTH-2] = flags;
 
@@ -91,13 +95,13 @@ module debug_display
     //   h4: Y: counter for loops
     //   h5: P: instruction pointer
     //   h6: S: stack pointer
-    assign segments[3] = (active_reg == 'h0) ? 7'b0001000   // A
-                         : (active_reg == 'h1) ? 7'b0000000 // B
-                         : (active_reg == 'h2) ? 7'b1000110 // C
-                         : (active_reg == 'h3) ? 7'b1000000 // D
-                         : (active_reg == 'h4) ? 7'b0010001 // Y
-                         : (active_reg == 'h5) ? 7'b0001100 // P
-                         : (active_reg == 'h6) ? 7'b0010010 // S
+    assign segments[3] = (op_modifier == 'h0) ? 7'b0001000   // A
+                         : (op_modifier == 'h1) ? 7'b0000000 // B
+                         : (op_modifier == 'h2) ? 7'b1000110 // C
+                         : (op_modifier == 'h3) ? 7'b1000000 // D
+                         : (op_modifier == 'h4) ? 7'b0010001 // Y
+                         : (op_modifier == 'h5) ? 7'b0001100 // P
+                         : (op_modifier == 'h6) ? 7'b0010010 // S
                          : 7'b0111111;                      // -
 
     reg [16:0] time_counter;
