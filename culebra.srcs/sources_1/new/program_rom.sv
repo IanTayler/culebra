@@ -47,11 +47,11 @@ module program_rom
             //               SUB     Y         [PAD]            1
             'h03: memory = {5'h00, 3'h4, (WIDTH-8)'('b0), WIDTH'('h1)};
             // Loop until Y is 0.
-            //               JMP          [PAD]       NZ            1
-            'h04: memory = {5'h07, (WIDTH-5)'('b0), 3'b001, (WIDTH-3)'('h1)};
+            //               JMP     NZ        [PAD]            1
+            'h04: memory = {5'h07, 3'h4, (WIDTH-8)'('b0), WIDTH'('h1)};
             // Loop forever.
-            //               JMP          [PAD]     ALWAYS           4
-            'h05: memory = {5'h07, (WIDTH-5)'('b0), 3'b111, (WIDTH-3)'('h4)};
+            //               JMP   UNCOND      [PAD]            4
+            'h05: memory = {5'h07, 3'h7, (WIDTH-8)'('b0), WIDTH'('h4)};
             default: memory = 'h00;
         endcase
     end

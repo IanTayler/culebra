@@ -64,7 +64,7 @@ module alu
                 4'h6: reg_page[op_modifier] = ~reg_page[op_modifier];           // bitwise not
                 4'h7:                                                           // jump
                     begin
-                        case (data_in[WIDTH-1 : WIDTH-3])
+                        case (op_modifier)
                             3'b000: condition
                                 = flags[0];              // if zero
                             3'b001: condition
@@ -78,16 +78,8 @@ module alu
                             3'b111: condition = 'b1;     // unconditionally
                             default: condition = 1'b0;   // default: don't jump
                         endcase
-                        // Ignore the first three bits of the immediate input.
-                        // This is because these three bits define which condition
-                        // to use.
-                        //
-                        // But do no ignore the top three bits of registers.
-                        // That means that if you need to jump to a very high address,
-                        // you can only do it if the address is in a register.
                         if (condition)
-                            reg_page[INSTRUCTION_POINTER] = active_op[4] ? op_input
-                                                            : op_input[WIDTH-4 : 0];
+                            reg_page[INSTRUCTION_POINTER] = op_input;
                     end
                 default: reg_page[op_modifier] = 'b0;                           // DEFAULT: load 0
             endcase
