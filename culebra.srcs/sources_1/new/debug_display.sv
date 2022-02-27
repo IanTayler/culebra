@@ -102,7 +102,7 @@ module debug_display
                          : (op_modifier == 'h4) ? 7'b0010001 // Y
                          : (op_modifier == 'h5) ? 7'b0001100 // P
                          : (op_modifier == 'h6) ? 7'b0010010 // S
-                         : 7'b0111111;                      // -
+                         : 7'b0111111;                       // -
 
     reg [16:0] time_counter;
     // use time_counter to avoid overloading the 7-segment display.
