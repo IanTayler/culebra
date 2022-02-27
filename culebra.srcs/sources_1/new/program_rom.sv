@@ -38,6 +38,7 @@ module program_rom
 	always @* begin
         case (address_reg)
             // Should multiply 5*4.
+            //    INSTRUCTION    | MODIFIER |   PAD      | ARGUMENT;
             //              LOAD     B         [PAD]            5
             'h00: memory = {5'h05, 3'h1, (WIDTH-8)'('b0), WIDTH'('h5)};
             //              LOAD     Y         [PAD]            4
