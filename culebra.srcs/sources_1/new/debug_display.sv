@@ -50,9 +50,9 @@ module debug_display
     // care.
     //   hx0: SB for subtraction
     //   hx1: AD for addition
-    //   hx2: CJ for logical and (conjunction)
-    //   hx3: DJ for logical or (disjunction)
-    //   hx4: ED for logical xor (exclusive disjunction)
+    //   hx2: CJ for bitwise and (conjunction)
+    //   hx3: DJ for bitwise or (disjunction)
+    //   hx4: ED for bitwise xor (exclusive disjunction)
     //   hx5: LD for load immediate to register
     //   hx6: nG for bitwise negation
     //   hx7: JP conditional jumps high bits define condition
