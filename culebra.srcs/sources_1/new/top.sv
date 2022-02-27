@@ -112,7 +112,7 @@ module top
 
     `ifdef DEBUG_DISPLAY
         // debug scope: show the currently selected operation and register in display.
-        debug_display #(.WIDTH(WIDTH)) display (
+        debug_display #(WIDTH, INSTRUCTION_POINTER) display (
             .seg(seg),
             .dp(dp),
             .an(an),

@@ -21,7 +21,8 @@
 
 
 module debug_display
-    #(parameter WIDTH = 8)
+    #(parameter WIDTH = 8,
+      parameter INSTRUCTION_POINTER = 'h5)
     (
         output reg [6:0]         seg,
         output wire              dp,
@@ -36,14 +37,14 @@ module debug_display
 
     wire [6:0] segments [0:3];
     reg [1:0]  counter;
-    // Does this op take a register or something else?
-    // Currently only jumps take a different modifier.
-    wire       op_modifier_non_register = active_op == 'h7;
-
+    // Does this op take a flag condition as modifier?
+    // Currently only jump satisfies this.
+    wire       op_modifier_condition = active_op == 'h7;
 
     // Show active register value in leds. Ignore highest two bits to
     // show the flags instead.
-    assign led[WIDTH-3 : 0] = reg_page[op_modifier];
+    assign led[WIDTH-3 : 0] = op_modifier_condition? reg_page[INSTRUCTION_POINTER]
+                              : reg_page[op_modifier];
     // Flags shown in the highest two LEDs.
     assign led[WIDTH-1 : WIDTH-2] = flags;
 
@@ -59,7 +60,7 @@ module debug_display
     //   hx4: ED for bitwise xor (exclusive disjunction)
     //   hx5: LD for load immediate to register
     //   hx6: nG for bitwise negation
-    //   hx7: JP conditional jumps high bits define condition
+    //   hx7: JP conditional jumps
     //   -- for unknown other (probably not implemented)
     //
     assign segments[0] = (active_op[3:0] == 'h0) ? 7'b0010010   // S
@@ -95,14 +96,24 @@ module debug_display
     //   h4: Y: counter for loops
     //   h5: P: instruction pointer
     //   h6: S: stack pointer
-    assign segments[3] = (op_modifier == 'h0) ? 7'b0001000   // A
-                         : (op_modifier == 'h1) ? 7'b0000000 // B
-                         : (op_modifier == 'h2) ? 7'b1000110 // C
-                         : (op_modifier == 'h3) ? 7'b1000000 // D
-                         : (op_modifier == 'h4) ? 7'b0010001 // Y
-                         : (op_modifier == 'h5) ? 7'b0001100 // P
-                         : (op_modifier == 'h6) ? 7'b0010010 // S
-                         : 7'b0111111;                       // -
+    assign segments[3] = op_modifier_condition ?
+                         // Jump condition
+                         ((op_modifier == 'h0) ? 7'b1000000   // 0: zero
+                          : (op_modifier == 'h1) ? 7'b1111001 // 1: non-zero
+                          : (op_modifier == 'h2) ? 7'b0111111 // -: signed negative
+                          : (op_modifier == 'h3) ? 7'b0110000 // 3: signed non-negative
+                          : (op_modifier == 'h4) ? 7'b0011001 // 4: signed positive
+                          : (op_modifier == 'h7) ? 7'b0010001 // Y: unconditional
+                          : 7'b1111111)                       // space: unknown
+                         // Register destination
+                         : ((op_modifier == 'h0) ? 7'b0001000 // A
+                          : (op_modifier == 'h1) ? 7'b0000000 // B
+                          : (op_modifier == 'h2) ? 7'b1000110 // C
+                          : (op_modifier == 'h3) ? 7'b1000000 // D
+                          : (op_modifier == 'h4) ? 7'b0010001 // Y
+                          : (op_modifier == 'h5) ? 7'b0001100 // P
+                          : (op_modifier == 'h6) ? 7'b0010010 // S
+                          : 7'b0111111);                      // -: unnamed
 
     reg [16:0] time_counter;
     // use time_counter to avoid overloading the 7-segment display.
