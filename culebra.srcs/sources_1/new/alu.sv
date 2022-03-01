@@ -21,7 +21,7 @@
 
 
 module alu
-    #(parameter WIDTH = 8,
+    #(parameter WIDTH = 16,
       parameter INSTRUCTION_POINTER = 'h5,
       parameter STACK_POINTER = 'h6)
     (

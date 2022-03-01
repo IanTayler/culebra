@@ -21,7 +21,7 @@
 
 
 module program_rom
-    #(parameter WIDTH = 8)
+    #(parameter WIDTH = 16)
 	(
 		output reg [(WIDTH*2)-1 : 0] memory,
 		input wire [WIDTH-1 : 0] address,

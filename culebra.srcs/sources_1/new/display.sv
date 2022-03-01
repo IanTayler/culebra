@@ -21,7 +21,7 @@
 
 
 module display
-    #(parameter WIDTH = 8,
+    #(parameter WIDTH = 16,
       parameter A_REGISTER = 'h0)
     (
         output wire [WIDTH - 1 : 0] led,

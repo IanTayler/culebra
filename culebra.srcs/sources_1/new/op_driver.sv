@@ -21,7 +21,7 @@
 
 
 module op_driver
-    #(parameter WIDTH = 8)
+    #(parameter WIDTH = 16)
     (
         output reg                 op_enable,
         output reg [2:0]           op_modifier,
