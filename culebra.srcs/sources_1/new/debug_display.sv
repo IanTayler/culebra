@@ -21,7 +21,7 @@
 
 
 module debug_display
-    #(parameter WIDTH = 8,
+    #(parameter WIDTH = 16,
       parameter INSTRUCTION_POINTER = 'h5)
     (
         output reg [6:0]         seg,
