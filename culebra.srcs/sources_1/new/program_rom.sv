@@ -24,13 +24,13 @@ module program_rom
     #(parameter WIDTH = 16)
 	(
 		output reg [(WIDTH*2)-1 : 0] memory,
-		input wire [WIDTH-1 : 0] address,
+		input wire [31:0] address,
 		input wire clk
 	);
 
 	(* rom_style = "block" *)
 
-    reg [WIDTH-1 : 0] address_reg;
+    reg [31:0] address_reg;
 
     always @(posedge clk) begin
         address_reg <= address;

@@ -64,7 +64,7 @@ module top
     // reading the executable.
     wire [(WIDTH*2)-1 : 0] memory;
     // Address being read from memory. This will be the instruction pointer for us.
-    wire [WIDTH-1 : 0]     address;
+    wire [31 : 0]     address;
     // CPU clock. Can be set to a slower speed for debug purposes.
     wire                   cpu_clk;
 

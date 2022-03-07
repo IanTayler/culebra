@@ -27,7 +27,7 @@ module op_driver
         output reg [2:0]           op_modifier,
         output reg [4:0]           active_op,
         output reg [WIDTH-1 : 0]   imm_reg,
-        output reg [WIDTH-1 : 0]   address,
+        output reg [31:0]       address,
         input wire [WIDTH*2-1 : 0] memory,
         input wire [WIDTH-1 : 0]   instruction_pointer,
         input wire                 clk
